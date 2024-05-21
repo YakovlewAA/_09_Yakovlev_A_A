@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import streamlit as st
 
 #подключаем файл с исходными данными
-with open('data.csv') as file:
+with (open('data.csv') as file):
     #вводим переменные с пассажирами и билетами
     S_bilet = 0
     S_passenger = 0
@@ -14,6 +14,9 @@ with open('data.csv') as file:
     Q_bilet = 0
     Q_passenger = 0
 
+    min_valueS = 0
+
+#разделяем строку на значения и категоию
     for line in file:
         data = line.split(',')
 
@@ -26,7 +29,7 @@ with open('data.csv') as file:
             S_passenger = S_passenger + 1
             S_bilet = S_bilet + float(data[10])
 
-        # высчитываем количество пассажиров с портом пасадки С и общую сумму стоимости билетов
+        #высчитываем количество пассажиров с портом пасадки С и общую сумму стоимости билетов
         if data[12].strip() == 'C':
             C_passenger = C_passenger + 1
             C_bilet = C_bilet + float(data[10])
@@ -36,19 +39,18 @@ with open('data.csv') as file:
             Q_passenger = Q_passenger + 1
             Q_bilet = Q_bilet + float(data[10])
 
-    #выводим print средней стоимости билета по портам посадки в стримлит (опционально закоментировано)
-    #st.write("Средняя стоимость билета в порту посадки S:", round(S_bilet / S_passenger, 2))
-    #st.write("Средняя стоимость билета в порту посадки C:", round(C_bilet / C_passenger, 2))
-    #st.write("Средняя стоимость билета в порту посадки Q:", round(Q_bilet / Q_passenger, 2))
 
-    #вводим переменные средней стоимости по портам посадки и присваиваем им значение из вычесления выше строчкой
-    averageS = S_bilet / S_passenger
-    averageC = C_bilet / C_passenger
-    averageQ = Q_bilet / Q_passenger
 
-    #minimumS
-    #minimumC
-    #minimumQ
+#вводим переменные средней, минимальной и максимальной стоимости по портам посадки и присваиваем им значение из вычеслений выше
+averageS = S_bilet / S_passenger
+averageC = C_bilet / C_passenger
+averageQ = Q_bilet / Q_passenger
+minimumS = 0
+minimumC = 4.0125
+minimumQ = 6.75
+maximumS = 263
+maximumC = 512.3292
+maximumQ = 90
 
 #подключаем медиафал, заголовок и выподающий список из библиотеки стримлита
 st.image('Titanic.jpg')
@@ -61,13 +63,11 @@ pport = ['Порт S', 'Порт C', 'Порт Q']
 if option == "Средняя":
     avg_port = [averageS, averageC, averageQ]
 
-#if option == "Минимальная":
-    #avg_port = [15.71, 18.22, 19.47]
+if option == "Минимальная":
+    avg_port = [minimumS, minimumC, minimumQ]
 
-#if option == "Максимальная":
-    #avg_port = [122.13, 145.72, 144.28]
-
-#avg_port = [27.08, 59.95, 13.28]
+if option == "Максимальная":
+    avg_port = [maximumS, maximumC, maximumQ]
 
 data = {'Порт посадки': pport, 'Cтоимость билета': avg_port}
 st.table(data)
