@@ -7,12 +7,18 @@ with (open('data.csv') as file):
     #вводим переменные с пассажирами и билетами
     S_bilet = 0
     S_passenger = 0
+    S_min = -1
+    S_max = 0
 
     C_bilet = 0
     C_passenger = 0
+    C_min = -1
+    C_max = 0
 
     Q_bilet = 0
     Q_passenger = 0
+    Q_min = -1
+    Q_max = 0
 
     min_valueS = 0
 
@@ -29,15 +35,30 @@ with (open('data.csv') as file):
             S_passenger = S_passenger + 1
             S_bilet = S_bilet + float(data[10])
 
+            if (S_min > float(data[10]) or S_min == -1) and float(data[10]) != 0:
+                S_min = float(data[10])
+            if S_max < float(data[10]):
+                S_max = float(data[10])
+
         #высчитываем количество пассажиров с портом пасадки С и общую сумму стоимости билетов
         if data[12].strip() == 'C':
             C_passenger = C_passenger + 1
             C_bilet = C_bilet + float(data[10])
 
+            if (C_min > float(data[10]) or C_min == -1) and float(data[10]) != 0:
+                C_min = float(data[10])
+            if C_max < float(data[10]):
+                C_max = float(data[10])
+
         # высчитываем количество пассажиров с портом пасадки Q и общую сумму стоимости билетов
         if data[12].strip() == 'Q':
             Q_passenger = Q_passenger + 1
             Q_bilet = Q_bilet + float(data[10])
+
+            if (Q_min > float(data[10]) or Q_min == -1) and float(data[10]) != 0:
+                Q_min = float(data[10])
+            if Q_max < float(data[10]):
+                Q_max = float(data[10])
 
 
 
@@ -45,12 +66,12 @@ with (open('data.csv') as file):
 averageS = S_bilet / S_passenger
 averageC = C_bilet / C_passenger
 averageQ = Q_bilet / Q_passenger
-minimumS = 0
-minimumC = 4.0125
-minimumQ = 6.75
-maximumS = 263
-maximumC = 512.3292
-maximumQ = 90
+minimumS = round(S_min,2)
+minimumC = round(C_min,2)
+minimumQ = round(Q_min,2)
+maximumS = round(S_max,2)
+maximumC = round(C_max,2)
+maximumQ = round(Q_max,2)
 
 #подключаем медиафал, заголовок и выподающий список из библиотеки стримлита
 st.image('Titanic.jpg')
